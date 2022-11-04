@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Vue Basic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app" style="min-height: 100vh; " class="bg-secondary">
+        <div class="container d-flex flex-column gap-4 "style="min-height: 89vh; ">
+            <div class="flex text-center mt-4">
+                <h3>To Do List</h3>
+            </div>
+            <div class="card">
+                <div class="card-body" v-for="(x, index) in list" :key="index">
+                    <div class="border border-secondary p-2 rounded">
+                        <button :class="(x.prioritas == 'Penting') ? 'btn btn-danger' : (x.prioritas == 'Biasa') ? 'btn btn-success' : 'btn btn-secondary'" disabled>{{x.prioritas}}</button>
+                        <h3>{{x.nama}}</h3>
+                        <p>{{x.catatan}}</p>
+                        <button class="btn btn-danger" @click="remove(x.id)">Hapus</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Nama</label>
+                      <input type="text" class="form-control" v-model="nama">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Prioritas</label>
+                      <select name="" id="" class="form-control" v-model="prioritas">
+                        <option value="Penting">Penting</option>
+                        <option value="Biasa">Biasa</option>
+                        <option value="Tidak Penting">Tidak Penting</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Catatan</label>
+                        <input type="text" class="form-control" v-model="catatan">
+                      </div>
+                    <button type="submit" class="btn btn-primary mt-2" @click="add">Submit</button>
+                    <button type="submit" class="btn btn-danger mt-2 mx-2" @click="reset">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-content-center text-center w-100 p-4" >
+            {{saya.nama}} | {{saya.kelas}} | {{saya.npm}}
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+        return {
+            nama : '',
+            prioritas : '',
+            catatan : '',
+            list : [],
+            id : 0,
+            saya: {
+                nama : 'Gde Rama Vedanta Yudhistira',
+                npm: '200710735',
+                kelas: 'Kelas B'
+            }
+        }
+        },
+        methods: {
+            add(){
+                if(this.nama == '' || this.prioritas == '' || this.catatan == '') return
+                this.list.push({
+                    id: this.id++,
+                    nama : this.nama,
+                    prioritas : this.prioritas,
+                    catatan : this.catatan,
+                })
+                console.log(this.list)
+                this.reset()
+            },
+            reset(){
+                this.nama = '';
+                this.prioritas = '';
+                this.catatan= '';
+            },
+            remove(id){
+                this.list = this.list.filter(x => x.id != id)
+                console.log(id)
+            }
+               
+        }
+    }).mount('#app')
+</script>
+</html>
