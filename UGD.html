@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD Vue Basic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app" style="min-height: 100vh;">
+        <div class="container d-flex flex-column gap-4" >
+            <div class="flex text-center mt-4">
+                <h3>Number Guessing Game</h3>
+            </div>
+            <ol type="1">
+               <li>Each Player gets 4 chances to guess</li> 
+               <li>Number range is between 1 - 10</li> 
+               <!-- <li></li>  -->
+            </ol>
+            <h3>Input Your Number Here</h3>
+            <div class="form-group">
+                <input type="number" class="form-control bg-success text-white" v-model="ans">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control bg-danger text-white" :value="`Yuo have guessed ${chance} times`" readonly>
+            </div>
+            <p >correct number is {{random}}</p>
+            <div v-if="gameOver !== false">
+                <h3 :class="">You {{gameOver}}! correct number is {{random}}</h3>
+            </div>
+            <div class="form-group">
+                <button v-if="gameOver == false" @click="check" class="btn btn-primary">Check</button>
+                <button v-if="gameOver !== false" @click="ulang" class="btn btn-danger">Restart</button>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-content-center text-center w-100 p-4" style="position:absolute; bottom:0">
+            {{saya.nama}} | {{saya.kelas}} | {{saya.npm}} 
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+        return {
+            chance: 0,
+            ans: '',
+            random: Math.floor(Math.random() * 10),
+            gameOver : false,
+            saya: {
+                nama : 'Gde Rama Vedanta Yudhistira',
+                npm: '200710735',
+                kelas: 'Kelas B'
+            }
+        }
+        },
+        methods: {
+            check(){
+                if(this.gameOver != false || this.chance >= 4) return
+                if(this.ans.length < 1) {
+                    alert('inputan kosong')
+                    return
+                }
+                console.log(this.random)
+                this.chance++
+                if(this.ans == this.random) this.gameOver = 'win'
+                else if(this.chance >= 4) this.gameOver = 'lose'
+            },
+            ulang(){
+                this.chance = 0;
+                this.ans = '';
+                this.random= Math.floor(Math.random() * 10);
+                this.gameOver = false;
+            }
+        }
+    }).mount('#app')
+</script>
+</html>
